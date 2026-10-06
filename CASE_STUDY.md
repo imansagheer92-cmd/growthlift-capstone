@@ -65,7 +65,7 @@
 
 | Resource | Link |
 |---|---|
-| **Live URL** | _To be added after Vercel deployment_ |
-| **GitHub Repo** | _To be added_ |
+| **Live URL** | [growthlift-capstone-frontend.vercel.app](https://growthlift-capstone-frontend.vercel.app) |
+| **GitHub Repo** | [github.com/imansagheer92-cmd/growthlift-capstone](https://github.com/imansagheer92-cmd/growthlift-capstone) |
+| **Backend API** | [growthlift-capstone-eta.vercel.app](https://growthlift-capstone-eta.vercel.app) |
 | **Demo Video** | _To be added_ |
-| **Backend API** | _To be added after Render deployment_ |

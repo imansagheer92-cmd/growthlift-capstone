@@ -8,8 +8,9 @@ A full-stack MERN expense tracking web application built as the Week 6 Capstone 
 
 | Resource | URL |
 |---|---|
-| **Frontend (Vercel)** | _To be added after deployment_ |
-| **Backend API (Render)** | _To be added after deployment_ |
+| **Frontend (Vercel)** | [growthlift-capstone-frontend.vercel.app](https://growthlift-capstone-frontend.vercel.app) |
+| **Backend API (Vercel)** | [growthlift-capstone-eta.vercel.app](https://growthlift-capstone-eta.vercel.app) |
+| **GitHub Repo** | [github.com/imansagheer92-cmd/growthlift-capstone](https://github.com/imansagheer92-cmd/growthlift-capstone) |
 | **Demo Video** | _To be added_ |
 
 ---
