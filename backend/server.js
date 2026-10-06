@@ -29,6 +29,16 @@ app.get('/', (req, res) => {
   res.json({ message: 'SpendWise API is running.' });
 });
 
+// Debug route — check env vars are loaded correctly
+app.get('/debug', (req, res) => {
+  const uri = process.env.MONGO_URI;
+  res.json({
+    hasMongoUri: !!uri,
+    uriPreview: uri ? uri.substring(0, 25) + '...' : 'NOT SET',
+    nodeEnv: process.env.NODE_ENV || 'not set',
+  });
+});
+
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/expenses', expenseRoutes);
