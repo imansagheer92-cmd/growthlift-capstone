@@ -1,0 +1,42 @@
+.expenses-page { padding: 40px 0 60px; }
+
+.expenses-page__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.expenses-page__header h1 { margin-bottom: 4px; }
+
+.expenses-page__filters {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.expenses-page__filters .form-group { flex: 1; min-width: 160px; }
+
+.expenses-page__reset { align-self: flex-end; white-space: nowrap; }
+
+.expenses-page__list { display: flex; flex-direction: column; gap: 10px; }
+
+.expenses-page__empty {
+  text-align: center;
+  padding: 60px 24px;
+  background: var(--surface);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.expenses-page__empty p { color: var(--text-muted); }
+
+@media (max-width: 600px) {
+  .expenses-page__filters { flex-direction: column; }
+  .expenses-page__filters .form-group { width: 100%; }
+}
