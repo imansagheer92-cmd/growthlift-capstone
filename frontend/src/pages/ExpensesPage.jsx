@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { expensesApi } from '../services/api'
 import ExpenseItem from '../components/ExpenseItem'
-import { exportToCSV } from '../utils/exportCSV'
 import './ExpensesPage.css'
 
 const CATEGORIES = ['All', 'Food & Dining', 'Transport', 'Shopping', 'Entertainment', 'Health', 'Education', 'Utilities', 'Other']
@@ -56,19 +55,6 @@ export default function ExpensesPage() {
             </p>
           </div>
           <Link to="/add-expense" className="btn btn-primary">+ Add Expense</Link>
-          <button
-            className="btn btn-outline"
-            onClick={() => {
-              if (expenses.length === 0) {
-                alert('No expenses to export. Add some expenses first.')
-                return
-              }
-              exportToCSV(expenses)
-            }}
-            title="Download expenses as CSV"
-          >
-            ⬇ Export CSV
-          </button>
         </div>
 
         {/* Filters */}
