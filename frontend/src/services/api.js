@@ -33,4 +33,11 @@ export const expensesApi = {
   remove: (id) => api.delete(`/expenses/${id}`),
 };
 
+export const incomeApi = {
+  getAll: () => api.get('/income'),
+  getSummary: () => api.get('/income/summary'),
+  create: (data) => api.post('/income', data),
+  remove: (id) => api.delete(`/income/${id}`),
+};
+
 export default api;

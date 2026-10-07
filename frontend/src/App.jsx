@@ -9,6 +9,7 @@ import DashboardPage from './pages/DashboardPage'
 import ExpensesPage from './pages/ExpensesPage'
 import AddExpensePage from './pages/AddExpensePage'
 import EditExpensePage from './pages/EditExpensePage'
+import SavingsPage from './pages/SavingsPage'
 import NotFoundPage from './pages/NotFoundPage'
 import './App.css'
 
@@ -39,6 +40,7 @@ export default function App() {
           <Route path="/expenses" element={<PrivateRoute><ExpensesPage /></PrivateRoute>} />
           <Route path="/add-expense" element={<PrivateRoute><AddExpensePage /></PrivateRoute>} />
           <Route path="/edit-expense/:id" element={<PrivateRoute><EditExpensePage /></PrivateRoute>} />
+          <Route path="/savings" element={<PrivateRoute><SavingsPage /></PrivateRoute>} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

@@ -48,7 +48,17 @@ const expenseSchema = new mongoose.Schema({
 
 const Expense = mongoose.models.Expense || mongoose.model('Expense', expenseSchema);
 
-// ── Helpers ──────────────────────────────────────────────────────
+// ── Income Model ─────────────────────────────────────────────────
+const incomeSchema = new mongoose.Schema({
+  user:        { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  title:       { type: String, required: true, trim: true },
+  amount:      { type: Number, required: true, min: 0.01 },
+  source:      { type: String, enum: ['Salary', 'Freelance', 'Business', 'Gift', 'Investment', 'Other'], default: 'Other' },
+  description: { type: String, default: '' },
+  date:        { type: Date, default: Date.now },
+}, { timestamps: true });
+
+const Income = mongoose.models.Income || mongoose.model('Income', incomeSchema);
 const genToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 
 const protect = async (req, res, next) => {
@@ -180,6 +190,71 @@ app.delete('/api/expenses/:id', protect, async (req, res) => {
       return res.status(403).json({ message: 'Not authorized' });
     await expense.deleteOne();
     res.json({ message: 'Expense deleted successfully' });
+  } catch (err) { res.status(500).json({ message: err.message }); }
+});
+
+// ── Income Routes ────────────────────────────────────────────────
+app.get('/api/income', protect, async (req, res) => {
+  try {
+    await connectDB();
+    const income = await Income.find({ user: req.user._id }).sort({ date: -1 });
+    res.json(income);
+  } catch (err) { res.status(500).json({ message: err.message }); }
+});
+
+app.post('/api/income', protect, async (req, res) => {
+  try {
+    await connectDB();
+    const { title, amount, source, description, date } = req.body;
+    if (!title || !amount) return res.status(400).json({ message: 'Title and amount are required' });
+    const income = await Income.create({
+      user: req.user._id, title, amount,
+      source: source || 'Other',
+      description: description || '',
+      date: date || Date.now(),
+    });
+    res.status(201).json(income);
+  } catch (err) { res.status(400).json({ message: err.message }); }
+});
+
+app.delete('/api/income/:id', protect, async (req, res) => {
+  try {
+    await connectDB();
+    const income = await Income.findById(req.params.id);
+    if (!income) return res.status(404).json({ message: 'Income not found' });
+    if (income.user.toString() !== req.user._id.toString())
+      return res.status(403).json({ message: 'Not authorized' });
+    await income.deleteOne();
+    res.json({ message: 'Income deleted successfully' });
+  } catch (err) { res.status(500).json({ message: err.message }); }
+});
+
+app.get('/api/income/summary', protect, async (req, res) => {
+  try {
+    await connectDB();
+    const [incomes, expenses] = await Promise.all([
+      Income.find({ user: req.user._id }),
+      Expense.find({ user: req.user._id }),
+    ]);
+    const totalIncome = incomes.reduce((s, i) => s + i.amount, 0);
+    const totalExpenses = expenses.reduce((s, e) => s + e.amount, 0);
+    const now = new Date();
+    const thisMonthIncome = incomes.filter((i) => {
+      const d = new Date(i.date);
+      return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+    }).reduce((s, i) => s + i.amount, 0);
+    const thisMonthExpenses = expenses.filter((e) => {
+      const d = new Date(e.date);
+      return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+    }).reduce((s, e) => s + e.amount, 0);
+    res.json({
+      totalIncome,
+      totalExpenses,
+      netSavings: totalIncome - totalExpenses,
+      thisMonthIncome,
+      thisMonthExpenses,
+      thisMonthSavings: thisMonthIncome - thisMonthExpenses,
+    });
   } catch (err) { res.status(500).json({ message: err.message }); }
 });
 

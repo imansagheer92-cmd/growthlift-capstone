@@ -1,0 +1,112 @@
+.savings-page { padding: 40px 0 60px; }
+
+.savings-page__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.savings-page__header h1 { margin-bottom: 4px; }
+
+/* Form */
+.savings-page__form { margin-bottom: 28px; }
+.savings-page__form h3 { margin-bottom: 16px; }
+.savings-form { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+.savings-form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* Stats */
+.savings-page__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.savings-stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s;
+}
+.savings-stat-card:hover { transform: translateY(-2px); }
+
+.savings-stat-card__icon { font-size: 28px; }
+.savings-stat-card__label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+.savings-stat-card__value { font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--text-heading); }
+
+.savings-stat-card--income { border-left: 4px solid var(--success); }
+.savings-stat-card--expense { border-left: 4px solid var(--danger); }
+.savings-stat-card--positive { border-left: 4px solid var(--primary); }
+.savings-stat-card--negative { border-left: 4px solid var(--warning); }
+.savings-stat-card--rate { border-left: 4px solid #8b5cf6; }
+
+/* This month */
+.savings-page__month { margin-bottom: 28px; }
+.savings-page__month h3 { margin-bottom: 16px; }
+
+.savings-month__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.savings-month__item { display: flex; flex-direction: column; gap: 4px; }
+.savings-month__item span { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+.savings-month__income { color: var(--success); font-size: 18px; font-family: var(--font-heading); }
+.savings-month__expense { color: var(--danger); font-size: 18px; font-family: var(--font-heading); }
+.savings-month__positive { color: var(--primary); font-size: 18px; font-family: var(--font-heading); }
+.savings-month__negative { color: var(--warning); font-size: 18px; font-family: var(--font-heading); }
+
+/* Progress bar */
+.savings-progress__labels { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
+.savings-progress__track { background: var(--surface-2); border-radius: 99px; height: 12px; overflow: hidden; }
+.savings-progress__fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-light)); border-radius: 99px; transition: width 0.6s ease; min-width: 4px; }
+.savings-progress__fill--over { background: linear-gradient(90deg, var(--danger), #fca5a5); }
+
+/* Income list */
+.savings-page__list h3 { margin-bottom: 16px; }
+.savings-income-list { display: flex; flex-direction: column; gap: 10px; }
+
+.savings-income-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.savings-income-item:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+
+.savings-income-item__icon { font-size: 22px; width: 44px; height: 44px; background: #f0fdf4; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.savings-income-item__info { flex: 1; min-width: 0; }
+.savings-income-item__title { font-weight: 600; color: var(--text-heading); font-size: 15px; }
+.savings-income-item__meta { display: flex; align-items: center; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
+.savings-income-item__desc { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+.savings-income-item__right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0; }
+.savings-income-item__amount { font-family: var(--font-heading); font-weight: 800; font-size: 16px; color: var(--success); }
+
+.savings-page__empty {
+  text-align: center; padding: 48px 24px;
+  background: var(--surface); border: 2px dashed var(--border); border-radius: var(--radius-md);
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+}
+.savings-page__empty p { color: var(--text-muted); }
+
+/* Responsive */
+@media (max-width: 900px) { .savings-page__stats { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) {
+  .savings-page__stats { grid-template-columns: 1fr; }
+  .savings-form__row { grid-template-columns: 1fr; }
+  .savings-month__grid { grid-template-columns: 1fr; }
+  .savings-income-item { flex-wrap: wrap; }
+  .savings-income-item__right { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; }
+}

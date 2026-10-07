@@ -45,6 +45,9 @@ export default function Navbar() {
               <NavLink to="/expenses" className={({ isActive }) => isActive ? 'active' : ''} onClick={closeMenu}>
                 Expenses
               </NavLink>
+              <NavLink to="/savings" className={({ isActive }) => isActive ? 'active' : ''} onClick={closeMenu}>
+                Savings
+              </NavLink>
               <NavLink to="/add-expense" className={({ isActive }) => isActive ? 'active' : ''} onClick={closeMenu}>
                 Add Expense
               </NavLink>
