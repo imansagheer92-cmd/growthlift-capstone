@@ -1,5 +1,6 @@
 /**
- * Export expenses to CSV using base64 data URL (works on all browsers).
+ * Export expenses to CSV.
+ * Uses Blob + object URL with a same-page anchor click.
  */
 export function exportToCSV(expenses) {
   if (!expenses || expenses.length === 0) return;
@@ -15,21 +16,28 @@ export function exportToCSV(expenses) {
   ]);
 
   const csvContent =
+    '\uFEFF' +
     [headers.join(','), ...rows.map((r) => r.join(','))].join('\r\n');
-
-  const encoded = encodeURIComponent(csvContent);
-  const dataUri = `data:text/csv;charset=utf-8,${encoded}`;
 
   const filename = `spendwise-expenses-${new Date().toISOString().split('T')[0]}.csv`;
 
-  const link = document.createElement('a');
-  link.setAttribute('href', dataUri);
-  link.setAttribute('download', filename);
-  link.style.position = 'fixed';
-  link.style.top = '0';
-  link.style.left = '0';
-  link.style.opacity = '0';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+  try {
+    // Method 1: Blob + object URL
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    }, 200);
+  } catch {
+    // Method 2: open in new tab as fallback
+    const encoded = encodeURIComponent(csvContent);
+    window.open(`data:text/csv;charset=utf-8,${encoded}`, '_blank');
+  }
 }
