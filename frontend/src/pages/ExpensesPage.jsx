@@ -58,8 +58,13 @@ export default function ExpensesPage() {
           <Link to="/add-expense" className="btn btn-primary">+ Add Expense</Link>
           <button
             className="btn btn-outline"
-            onClick={() => exportToCSV(expenses)}
-            disabled={expenses.length === 0}
+            onClick={() => {
+              if (expenses.length === 0) {
+                alert('No expenses to export. Add some expenses first.')
+                return
+              }
+              exportToCSV(expenses)
+            }}
             title="Download expenses as CSV"
           >
             ⬇ Export CSV
