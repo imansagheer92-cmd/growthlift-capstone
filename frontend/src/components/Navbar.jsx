@@ -48,9 +48,6 @@ export default function Navbar() {
               <NavLink to="/savings" className={({ isActive }) => isActive ? 'active' : ''} onClick={closeMenu}>
                 Savings
               </NavLink>
-              <NavLink to="/add-expense" className={({ isActive }) => isActive ? 'active' : ''} onClick={closeMenu}>
-                Add Expense
-              </NavLink>
               <span className="navbar__greeting">Hi, {user.name.split(' ')[0]}</span>
               <button className="btn btn-outline btn-sm" onClick={handleLogout}>
                 Logout
