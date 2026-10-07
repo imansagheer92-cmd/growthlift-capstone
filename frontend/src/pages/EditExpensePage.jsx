@@ -27,22 +27,16 @@ export default function EditExpensePage() {
   useEffect(() => {
     const fetchExpense = async () => {
       try {
-        const { data } = await expensesApi.getAll()
-        const expense = data.find((e) => e._id === id)
-        if (!expense) {
-          setError('Expense not found.')
-          setLoading(false)
-          return
-        }
+        const { data } = await expensesApi.getOne(id)
         setForm({
-          title: expense.title,
-          amount: expense.amount,
-          category: expense.category,
-          description: expense.description || '',
-          date: new Date(expense.date).toISOString().split('T')[0],
+          title: data.title,
+          amount: data.amount,
+          category: data.category,
+          description: data.description || '',
+          date: new Date(data.date).toISOString().split('T')[0],
         })
       } catch {
-        setError('Failed to load expense.')
+        setError('Expense not found.')
       } finally {
         setLoading(false)
       }

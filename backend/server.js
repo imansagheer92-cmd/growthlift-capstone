@@ -81,7 +81,7 @@ app.post('/api/auth/register', async (req, res) => {
     res.status(201).json({ _id: user._id, name: user.name, email: user.email, token: genToken(user._id) });
   } catch (err) {
     console.error('Register error:', err);
-    res.status(500).json({ message: err.message, stack: err.stack });
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -129,6 +129,17 @@ app.get('/api/expenses', protect, async (req, res) => {
     if (category && category !== 'All') filter.category = category;
     const expenses = await Expense.find(filter).sort(sort === 'oldest' ? { date: 1 } : { date: -1 });
     res.json(expenses);
+  } catch (err) { res.status(500).json({ message: err.message }); }
+});
+
+app.get('/api/expenses/:id', protect, async (req, res) => {
+  try {
+    await connectDB();
+    const expense = await Expense.findById(req.params.id);
+    if (!expense) return res.status(404).json({ message: 'Expense not found' });
+    if (expense.user.toString() !== req.user._id.toString())
+      return res.status(403).json({ message: 'Not authorized' });
+    res.json(expense);
   } catch (err) { res.status(500).json({ message: err.message }); }
 });
 

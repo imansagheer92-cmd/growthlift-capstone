@@ -26,6 +26,7 @@ api.interceptors.request.use((config) => {
 // Expense API helpers
 export const expensesApi = {
   getAll: (params) => api.get('/expenses', { params }),
+  getOne: (id) => api.get(`/expenses/${id}`),
   getStats: () => api.get('/expenses/stats'),
   create: (data) => api.post('/expenses', data),
   update: (id, data) => api.put(`/expenses/${id}`, data),
