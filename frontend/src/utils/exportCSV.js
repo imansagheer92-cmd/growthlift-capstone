@@ -7,22 +7,32 @@ export function exportToCSV(expenses) {
   const headers = ['Title', 'Amount (PKR)', 'Category', 'Date', 'Notes'];
 
   const rows = expenses.map((e) => [
-    `"${e.title.replace(/"/g, '""')}"`,
+    `"${String(e.title).replace(/"/g, '""')}"`,
     e.amount,
     `"${e.category}"`,
     new Date(e.date).toLocaleDateString('en-GB'),
-    `"${(e.description || '').replace(/"/g, '""')}"`,
+    `"${String(e.description || '').replace(/"/g, '""')}"`,
   ]);
 
-  const csvContent = [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
+  const csvContent =
+    '\uFEFF' + // BOM for Excel UTF-8 support
+    [headers.join(','), ...rows.map((r) => r.join(','))].join('\r\n');
 
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+
+  // Use msSaveBlob for IE/Edge legacy, otherwise use anchor download
+  if (window.navigator && window.navigator.msSaveBlob) {
+    window.navigator.msSaveBlob(blob, `spendwise-expenses-${new Date().toISOString().split('T')[0]}.csv`);
+    return;
+  }
+
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  link.href = url;
-  link.download = `spendwise-expenses-${new Date().toISOString().split('T')[0]}.csv`;
+  link.setAttribute('href', url);
+  link.setAttribute('download', `spendwise-expenses-${new Date().toISOString().split('T')[0]}.csv`);
+  link.style.visibility = 'hidden';
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-  URL.revokeObjectURL(url);
+  setTimeout(() => URL.revokeObjectURL(url), 100);
 }
