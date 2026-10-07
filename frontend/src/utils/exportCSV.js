@@ -1,5 +1,5 @@
 /**
- * Export an array of expense objects to a CSV file download.
+ * Export expenses to CSV using base64 data URL (works on all browsers).
  */
 export function exportToCSV(expenses) {
   if (!expenses || expenses.length === 0) return;
@@ -15,24 +15,21 @@ export function exportToCSV(expenses) {
   ]);
 
   const csvContent =
-    '\uFEFF' + // BOM for Excel UTF-8 support
     [headers.join(','), ...rows.map((r) => r.join(','))].join('\r\n');
 
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const encoded = encodeURIComponent(csvContent);
+  const dataUri = `data:text/csv;charset=utf-8,${encoded}`;
 
-  // Use msSaveBlob for IE/Edge legacy, otherwise use anchor download
-  if (window.navigator && window.navigator.msSaveBlob) {
-    window.navigator.msSaveBlob(blob, `spendwise-expenses-${new Date().toISOString().split('T')[0]}.csv`);
-    return;
-  }
+  const filename = `spendwise-expenses-${new Date().toISOString().split('T')[0]}.csv`;
 
-  const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  link.setAttribute('href', url);
-  link.setAttribute('download', `spendwise-expenses-${new Date().toISOString().split('T')[0]}.csv`);
-  link.style.visibility = 'hidden';
+  link.setAttribute('href', dataUri);
+  link.setAttribute('download', filename);
+  link.style.position = 'fixed';
+  link.style.top = '0';
+  link.style.left = '0';
+  link.style.opacity = '0';
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-  setTimeout(() => URL.revokeObjectURL(url), 100);
 }
