@@ -67,5 +67,5 @@
 |---|---|
 | **Live URL** | [growthlift-capstone-frontend.vercel.app](https://growthlift-capstone-frontend.vercel.app) |
 | **GitHub Repo** | [github.com/imansagheer92-cmd/growthlift-capstone](https://github.com/imansagheer92-cmd/growthlift-capstone) |
-| **Backend API** | [growthlift-capstone-eta.vercel.app](https://growthlift-capstone-eta.vercel.app) |
+| **Backend API** | [spendwise-api-delta.vercel.app](https://spendwise-api-delta.vercel.app) |
 | **Demo Video** | _To be added_ |
