@@ -21,6 +21,7 @@ export default function RegisterPage() {
     setError('')
 
     if (!form.name.trim()) return setError('Name is required.')
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) return setError('Please enter a valid email address.')
     if (form.password.length < 6) return setError('Password must be at least 6 characters.')
     if (form.password !== form.confirm) return setError('Passwords do not match.')
 
@@ -46,7 +47,7 @@ export default function RegisterPage() {
 
         {error && <div className="alert alert-error">{error}</div>}
 
-        <form onSubmit={handleSubmit} noValidate>
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="name">Full name</label>
             <input

@@ -58,7 +58,7 @@ export default function AddExpensePage() {
 
           {error && <div className="alert alert-error mt-2">{error}</div>}
 
-          <form onSubmit={handleSubmit} noValidate className="expense-form">
+          <form onSubmit={handleSubmit} className="expense-form">
             <div className="form-group">
               <label htmlFor="title">Expense title *</label>
               <input
